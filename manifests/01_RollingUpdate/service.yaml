@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rollingupdate-demo
+  labels:
+    app: rollingupdate-demo
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http
+  selector:
+    app: rollingupdate-demo

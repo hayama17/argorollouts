@@ -13,6 +13,10 @@
   ```sh
   minikube delete
   ```
+* ingress追加
+  ```sh
+  minikube addons enable ingress
+  ```
 
 ## ArgoCD
 * インストール:
@@ -30,4 +34,10 @@
   ```sh
   kubectl create namespace argo-rollouts
   kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
+  ```
+* Plugin導入
+  ```sh
+  curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
+  chmod +x ./kubectl-argo-rollouts-linux-amd64
+  sudo mv ./kubectl-argo-rollouts-linux-amd64 /usr/local/bin/kubectl-argo-rollouts
   ```

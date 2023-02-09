@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rollingupdate-demo
+  labels:
+    app: rollingupdate-demo
+spec:
+  replicas: 3
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: rollingupdate-demo
+  template:
+    metadata:
+      labels:
+        app: rollingupdate-demo
+    spec:
+      containers:
+      - name: rollingupdate-demo
+        image: argoproj/rollouts-demo:blue
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            memory: 32Mi
+            cpu: 5m
