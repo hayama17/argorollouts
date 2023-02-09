@@ -16,6 +16,7 @@
 * ingress追加
   ```sh
   minikube addons enable ingress
+  minikube addons enable ingress-dns
   ```
 
 ## ArgoCD
@@ -40,4 +41,8 @@
   curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
   chmod +x ./kubectl-argo-rollouts-linux-amd64
   sudo mv ./kubectl-argo-rollouts-linux-amd64 /usr/local/bin/kubectl-argo-rollouts
+  ```
+* 監視
+  ```sh
+  kubectl argo rollouts get rollout <Rollout> -n <Namespace> --watch
   ```
