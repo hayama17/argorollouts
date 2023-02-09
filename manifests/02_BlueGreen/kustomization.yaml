@@ -6,4 +6,5 @@ resources:
 - service.yaml
 - service-preview.yaml
 - ingress.yaml
+- ingress-preview.yaml
 - namespace.yaml
