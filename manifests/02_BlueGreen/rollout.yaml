@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: bluegreen-demo
-        image: argoproj/rollouts-demo:blue
+        image: registry.gitlab.com/h-meru/argorollouts-hands-on/hello-world:v1
         imagePullPolicy: Always
         ports:
         - name: http

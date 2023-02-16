@@ -5,7 +5,12 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 
+	// Configure features
 	"features": {
+		"ghcr.io/devcontainers/features/go:1": {
+			"version": "1.19.5",
+			"golangciLintVersion": "latest"
+		},
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {
 			"enableNonRootDocker": "true",
 			"moby": "true"
@@ -35,7 +40,16 @@
 				"oderwat.indent-rainbow"
 			]
 		}
-	}
+	},
+
+	// Configure hosts
+	"runArgs": [
+		"--add-host=rolling-update.dev.sample.io:192.168.49.2",
+		"--add-host=blue-green.dev.sample.io:192.168.49.2",
+		"--add-host=blue-green-preview.dev.sample.io:192.168.49.2",
+		"--add-host=canary.dev.sample.io:192.168.49.2",
+		"--add-host=canary-preview.dev.sample.io:192.168.49.2"
+	]
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
