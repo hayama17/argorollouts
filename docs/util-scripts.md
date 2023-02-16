@@ -71,3 +71,8 @@
   docker push registry.gitlab.com/h-meru/argorollouts-hands-on/hello-world:<タグ名>
   ```
 
+## Test
+* curl実行
+  ```sh
+  watch -de -n 0.5 curl -sf <ドメイン名>.dev.sample.io
+  ```
