@@ -1,9 +1,11 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm-minikube
 {
 	"name": "my-k8s",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+
+	// Use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"build": {
+        // Path is relataive to the devcontainer.json file.
+        "dockerfile": "Dockerfile"
+    },
 
 	// Configure features
 	"features": {

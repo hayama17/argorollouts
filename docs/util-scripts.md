@@ -52,6 +52,10 @@
   ```sh
   kubectl argo rollouts get rollout <Rollout> -n <Namespace> --watch
   ```
+* ダッシュボード表示
+  ```sh
+  kubectl argo rollouts dashboard
+  ```
 
 ## Buildpacks / Docker
 * インストール
