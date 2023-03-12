@@ -29,6 +29,7 @@ spec:
     canary:
       stableService: canary-demo
       canaryService: canary-demo-preview
+      minPodsPerReplicaSet: 2
       steps:
       - setWeight: 20
       - pause: {}
@@ -38,3 +39,6 @@ spec:
       - pause: {duration: 10}
       - setWeight: 80
       - pause: {duration: 10}
+      trafficRouting:
+        nginx:
+          stableIngress: canary-demo
