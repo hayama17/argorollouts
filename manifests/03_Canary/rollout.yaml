@@ -29,7 +29,6 @@ spec:
     canary:
       canaryService: canary-demo-preview
       stableService: canary-demo
-      minPodsPerReplicaSet: 2
       steps:
       - setWeight: 20
       - pause: {}
