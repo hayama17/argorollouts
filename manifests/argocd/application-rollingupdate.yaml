@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rollingupdate-demo
+spec:
+  project: default
+  source:
+    repoURL: https://gitlab.com/h-meru/argorollouts-hands-on.git
+    targetRevision: main
+    path: manifests/01_RollingUpdate
+  destination:
+    server: https://kubernetes.default.svc

@@ -3,7 +3,7 @@
 ## minikube
 * 作成/起動:
   ```sh
-  minikube start
+  minikube start --kubernetes-version <Kubernetesバージョン>
   ```
 * 停止:
   ```sh
@@ -20,14 +20,18 @@
   ```
 
 ## ArgoCD
-* インストール:
+* インストール(Plain):
   ```sh
   kubectl create namespace argocd
-  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/<バージョン>/manifests/install.yaml
+  ```
+* インストール(Customize):
+  ```sh
+  kubectl apply -k ./manifests/argocd
   ```
 * CLI導入
   ```sh
-  curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+  curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/download/<バージョン>/argocd-linux-amd64
   sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
   rm argocd-linux-amd64
   ```
@@ -40,13 +44,13 @@
 * インストール:
   ```sh
   kubectl create namespace argo-rollouts
-  kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
+  kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/download/<バージョン>/install.yaml
   ```
 * Plugin導入
   ```sh
-  curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
-  chmod +x ./kubectl-argo-rollouts-linux-amd64
-  sudo mv ./kubectl-argo-rollouts-linux-amd64 /usr/local/bin/kubectl-argo-rollouts
+  curl -LO https://github.com/argoproj/argo-rollouts/releases/download/<バージョン>/kubectl-argo-rollouts-linux-amd64
+  sudo install -m 555 kubectl-argo-rollouts-linux-amd64 /usr/local/bin/kubectl-argo-rollouts
+  rm kubectl-argo-rollouts-linux-amd64
   ```
 * 監視
   ```sh
@@ -60,7 +64,7 @@
 ## Buildpacks / Docker
 * インストール
   ```sh
-  (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.28.0/pack-v0.28.0-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
+  (curl -sSL "https://github.com/buildpacks/pack/releases/download/<バージョン>/pack-<バージョン>-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
   ```
 * ビルド
   ```sh

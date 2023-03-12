@@ -4,7 +4,12 @@
 	// Use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"build": {
         // Path is relataive to the devcontainer.json file.
-        "dockerfile": "Dockerfile"
+        "dockerfile": "Dockerfile",
+		"args": {
+			"ARGOCD_VERSION": "v2.6.4",
+			"ARGOROLLOUT_VERSION": "v1.4.1",
+			"BUILDPACKS_VERSION": "v0.28.0"
+		}
     },
 
 	// Configure features
@@ -14,13 +19,15 @@
 			"golangciLintVersion": "latest"
 		},
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"enableNonRootDocker": "true",
-			"moby": "true"
+			"version": "latest",
+			"moby": true,
+			"dockerDashComposeVersion": "v2",
+			"installDockerBuildx": true
 		},
 		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
-			"version": "latest",
-			"helm": "latest",
-			"minikube": "latest"
+			"version": "1.26.2",
+			"helm": "none",
+			"minikube": "1.29.0"
 		},
 		"ghcr.io/rio/features/kustomize:1": {}
 	},
@@ -32,7 +39,7 @@
 	// "postCreateCommand": "kubectl version",
 
 	// Use 'postStartCommand' to run commands after the container is created like starting minikube.
-	"postStartCommand": "nohup bash -c 'minikube start &' > minikube.log 2>&1",
+	"postStartCommand": "nohup bash -c 'minikube start --kubernetes-version v1.26.2 &' > minikube.log 2>&1",
 
 	// Configure tool-specific properties.
 	"customizations": {
