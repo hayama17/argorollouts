@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-  - host: canary-preview.dev.sample.io
+  - host: canary.dev.sample.io
     http:
       paths:
       - path: /
