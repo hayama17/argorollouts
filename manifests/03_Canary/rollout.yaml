@@ -28,6 +28,8 @@ spec:
   strategy:
     canary:
       canaryService: canary-demo-preview
+      stableService: canary-demo
+      minPodsPerReplicaSet: 2
       steps:
       - setWeight: 20
       - pause: {}
@@ -37,4 +39,3 @@ spec:
       - pause: {duration: 10}
       - setWeight: 80
       - pause: {duration: 10}
-      minPodsPerReplicaSet: 2
