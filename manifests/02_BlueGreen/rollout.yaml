@@ -29,7 +29,7 @@ spec:
             cpu: 5m
   strategy:
     blueGreen:
-      activeService: bluegreen-demo
-      previewService: bluegreen-demo-preview
+      activeService: bluegreen-demo-blue
+      previewService: bluegreen-demo-green
       autoPromotionEnabled: false
       scaleDownDelaySeconds: 180

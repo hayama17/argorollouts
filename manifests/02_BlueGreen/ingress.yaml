@@ -13,6 +13,16 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: bluegreen-demo
+            name: bluegreen-demo-blue
+            port:
+              number: 80
+  - host: green.dev.sample.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bluegreen-demo-green
             port:
               number: 80

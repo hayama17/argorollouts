@@ -3,8 +3,7 @@ kind: Kustomization
 namespace: bluegreen-demo
 resources:
 - rollout.yaml
-- service.yaml
-- service-preview.yaml
+- service-blue.yaml
+- service-green.yaml
 - ingress.yaml
-- ingress-preview.yaml
 - namespace.yaml
