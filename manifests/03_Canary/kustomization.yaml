@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: canary-demo
 resources:
 - rollout.yaml
-- service.yaml
-- service-preview.yaml
+- service-stable.yaml
+- service-canary.yaml
 - ingress.yaml
 - namespace.yaml

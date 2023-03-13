@@ -13,6 +13,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: canary-demo
+            name: canary-demo-stable
             port:
               number: 80
