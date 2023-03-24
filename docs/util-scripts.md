@@ -76,7 +76,7 @@
   ```
 * タグ付け
   ```sh
-  docker tag <イメージID> registry.gitlab.com/h-meru/argorollouts-hands-on/hello-world:<タグ名>
+  docker tag hello-world registry.gitlab.com/h-meru/argorollouts-hands-on/hello-world:<タグ名>
   ```
 * プッシュ
   ```sh

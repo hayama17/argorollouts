@@ -13,15 +13,25 @@ import (
 
 var version = "none"
 
+type Response struct {
+	Message string `json:"message"`
+	Version string `json:"version"`
+}
+
 func main() {
 	// サーバ停止シグナル待ち受けチャネル定義
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
+	gin.SetMode(gin.ReleaseMode)
+
 	// ルーティング定義
 	router := gin.Default()
 	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello World!!!\nversion: %s\n", version)
+		c.JSON(http.StatusOK, Response{
+			Message: "Hello World!!!",
+			Version: version,
+		})
 	})
 
 	// HTTPサーバ定義
