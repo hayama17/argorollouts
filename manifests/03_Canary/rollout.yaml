@@ -29,6 +29,7 @@ spec:
     canary:
       stableService: canary-demo-stable
       canaryService: canary-demo-canary
+      dynamicStableScale: true
       minPodsPerReplicaSet: 2
       steps:
       - setWeight: 20
