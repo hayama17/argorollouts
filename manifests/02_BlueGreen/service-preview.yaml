@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bluegreen-demo-blue
+  name: bluegreen-demo-preview
   labels:
     app: bluegreen-demo
 spec:

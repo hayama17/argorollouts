@@ -53,9 +53,9 @@
 
 	// Configure hosts
 	"runArgs": [
-		"--add-host=rolling-update.dev.sample.io:192.168.49.2",
-		"--add-host=blue.dev.sample.io:192.168.49.2",
-		"--add-host=green.dev.sample.io:192.168.49.2",
+		"--add-host=rolling.dev.sample.io:192.168.49.2",
+		"--add-host=bg.active.dev.sample.io:192.168.49.2",
+		"--add-host=bg.preview.dev.sample.io:192.168.49.2",
 		"--add-host=canary.dev.sample.io:192.168.49.2"
 	]
 
