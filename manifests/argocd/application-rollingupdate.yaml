@@ -5,7 +5,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://gitlab.com/h-meru/argorollouts-hands-on.git
+    repoURL: https://gitlab.com/cloudnativetips/argorollouts-sample.git
     targetRevision: main
     path: manifests/01_RollingUpdate
   destination:

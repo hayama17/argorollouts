@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: canary-demo
-        image: registry.gitlab.com/h-meru/argorollouts-hands-on/hello-world:v1
+        image: registry.gitlab.com/cloudnativetips/argorollouts-sample/hello-world:v1
         imagePullPolicy: Always
         ports:
         - name: http

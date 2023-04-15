@@ -76,11 +76,11 @@
   ```
 * タグ付け
   ```sh
-  docker tag hello-world registry.gitlab.com/h-meru/argorollouts-hands-on/hello-world:<タグ名>
+  docker tag hello-world registry.gitlab.com/cloudnativetips/argorollouts-sample/hello-world:<タグ名>
   ```
 * プッシュ
   ```sh
-  docker push registry.gitlab.com/h-meru/argorollouts-hands-on/hello-world:<タグ名>
+  docker push registry.gitlab.com/cloudnativetips/argorollouts-sample/hello-world:<タグ名>
   ```
 
 ## Test
