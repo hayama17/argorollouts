@@ -13,7 +13,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: bluegreen-demo-blue
+            name: bluegreen-demo-active
             port:
               number: 80
   - host: bg.preview.dev.sample.io
@@ -23,6 +23,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: bluegreen-demo-green
+            name: bluegreen-demo-preview
             port:
               number: 80
