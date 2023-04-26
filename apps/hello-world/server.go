@@ -31,7 +31,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/", func(c *gin.Context) {
 		if version == "error" {
-			val, _ := rand.Int(rand.Reader, big.NewInt(10))
+			val, _ := rand.Int(rand.Reader, big.NewInt(8))
 			if val.Int64() == 0 {
 				c.AbortWithStatus(http.StatusInternalServerError)
 				return
