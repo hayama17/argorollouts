@@ -56,7 +56,8 @@
 		"--add-host=rolling.dev.sample.io:192.168.49.2",
 		"--add-host=bg.active.dev.sample.io:192.168.49.2",
 		"--add-host=bg.preview.dev.sample.io:192.168.49.2",
-		"--add-host=canary.dev.sample.io:192.168.49.2"
+		"--add-host=canary.dev.sample.io:192.168.49.2",
+		"--add-host=pg.dev.sample.io:192.168.49.2"
 	]
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
