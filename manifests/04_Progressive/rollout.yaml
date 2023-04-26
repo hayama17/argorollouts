@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: progressive-demo
+spec:
+  replicas: 5
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: progressive-demo
+  template:
+    metadata:
+      labels:
+        app: progressive-demo
+    spec:
+      containers:
+      - name: hello-world
+        image: registry.gitlab.com/cloudnativetips/argorollouts-sample/hello-world:v1
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            memory: 32Mi
+            cpu: 5m
+  strategy:
+    canary:
+      stableService: progressive-demo-stable
+      canaryService: progressive-demo-canary
+      dynamicStableScale: true
+      analysis:
+        templates:
+        - templateName: progressive-analysis
+        startingStep: 2
+        args:
+        - name: target-endpoint
+          value: http://pg.dev.sample.io/
+        - name: request-max-loop
+          value: "100"
+        - name: sleep-duration
+          value: 1s
+        - name: error-threshold
+          value: "5"
+      steps:
+      - setWeight: 20
+      - pause: {}
+      - setWeight: 40
+      - pause: {duration: 2m}
+      - setWeight: 70
+      - pause: {duration: 2m}
+      trafficRouting:
+        nginx:
+          stableIngress: progressive-demo

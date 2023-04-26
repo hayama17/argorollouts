@@ -27,7 +27,7 @@
 		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
 			"version": "1.26.2",
 			"helm": "none",
-			"minikube": "1.29.0"
+			"minikube": "1.30.1"
 		},
 		"ghcr.io/rio/features/kustomize:1": {}
 	},
@@ -39,7 +39,7 @@
 	// "postCreateCommand": "kubectl version",
 
 	// Use 'postStartCommand' to run commands after the container is created like starting minikube.
-	"postStartCommand": "nohup bash -c 'minikube start --kubernetes-version v1.26.2 &' > minikube.log 2>&1",
+	"postStartCommand": "nohup bash -c 'minikube start --memory=4096 --cpus=4 --kubernetes-version v1.26.2 &' > minikube.log 2>&1",
 
 	// Configure tool-specific properties.
 	"customizations": {

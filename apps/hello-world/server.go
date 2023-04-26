@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"crypto/rand"
 	"log"
+	"math/big"
 	"net/http"
 	"os/signal"
 	"syscall"
@@ -28,6 +30,13 @@ func main() {
 	// ルーティング定義
 	router := gin.Default()
 	router.GET("/", func(c *gin.Context) {
+		if version == "error" {
+			val, _ := rand.Int(rand.Reader, big.NewInt(10))
+			if val.Int64() == 0 {
+				c.AbortWithStatus(http.StatusInternalServerError)
+				return
+			}
+		}
 		c.JSON(http.StatusOK, Response{
 			Message: "Hello World!!!",
 			Version: version,

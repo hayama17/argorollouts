@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: progressive-demo
+spec:
+  project: default
+  source:
+    repoURL: https://gitlab.com/cloudnativetips/argorollouts-sample.git
+    targetRevision: main
+    path: manifests/04_Progressive
+  destination:
+    server: https://kubernetes.default.svc
