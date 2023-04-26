@@ -12,13 +12,15 @@ import (
 )
 
 func main() {
+	log.Println("[START] analysis-job")
+
 	// クライアント停止シグナル待ち受けチャネル定義
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
 	go func() {
 		<-ctx.Done()
-		log.Println("Interrupted infinite loop")
+		log.Println("[END] analysis-job")
 		os.Exit(0)
 	}()
 
@@ -40,7 +42,10 @@ func main() {
 
 		// execute
 		log.Printf("Request send[%d]\n", idx)
-		res, _ := client.Get(targetEndpoint)
+		res, err := client.Get(targetEndpoint)
+		if err != nil {
+			log.Fatalf("Fatal http request send: %v\n", err)
+		}
 		log.Printf("Response receive[%d]\n", idx)
 
 		// http response check
