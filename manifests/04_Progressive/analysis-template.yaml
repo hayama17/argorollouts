@@ -5,8 +5,6 @@ metadata:
 spec:
   args:
   - name: target-endpoint
-  - name: request-max-loop
-  - name: sleep-duration
   - name: error-threshold
   metrics:
   - name: success-rate
@@ -23,10 +21,6 @@ spec:
                 env:
                 - name: TARGET_ENDPOINT
                   value: "{{args.target-endpoint}}"
-                - name: REQUEST_MAX_LOOP
-                  value: "{{args.request-max-loop}}"
-                - name: SLEEP_DURATION
-                  value: "{{args.sleep-duration}}"
                 - name: ERROR_THRESHOLD
                   value: "{{args.error-threshold}}"
               restartPolicy: Never

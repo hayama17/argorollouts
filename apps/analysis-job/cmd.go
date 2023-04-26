@@ -5,57 +5,61 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"strconv"
+	"syscall"
 	"time"
-
-	"golang.org/x/sync/errgroup"
 )
 
 func main() {
-	client := &http.Client{}
+	// クライアント停止シグナル待ち受けチャネル定義
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
 
-	eg := errgroup.Group{}
-	parentCtx := context.Background()
+	go func() {
+		<-ctx.Done()
+		log.Println("Interrupted infinite loop")
+		os.Exit(0)
+	}()
+
+	client := &http.Client{
+		Timeout: 3 * time.Second,
+	}
 
 	targetEndpoint := os.Getenv("TARGET_ENDPOINT")
-	maxLoop, _ := strconv.Atoi(os.Getenv("REQUEST_MAX_LOOP"))
-
-	errorCnt := 0
-	for i := 0; i < maxLoop; i++ {
-		log.Printf("Send http request[%d]\n", i)
-
-		i := i
-		eg.Go(func() error {
-			childCtx, cancel := context.WithTimeout(parentCtx, time.Duration(3*time.Second))
-			defer cancel()
-
-			req, _ := http.NewRequestWithContext(childCtx, "GET", targetEndpoint, nil)
-			res, err := client.Do(req)
-			if err != nil {
-				return err
-			}
-
-			log.Printf("Response receive[%d]\n", i)
-
-			// http response check
-			if code := res.StatusCode; code != http.StatusOK {
-				log.Printf("Invalid status code: %d\n", code)
-				errorCnt++
-			}
-
-			return nil
-		})
-
-		sleepDuration, _ := time.ParseDuration(os.Getenv("SLEEP_DURATION"))
-		time.Sleep(sleepDuration)
-	}
-
-	if err := eg.Wait(); err != nil {
-		log.Fatalf("Fatal do http requuest: %v\n", err)
-	}
-
 	threshold, _ := strconv.Atoi(os.Getenv("ERROR_THRESHOLD"))
-	if errorCnt > threshold {
-		log.Fatalf("Fatal error count exceeded threshold: %d > %d\n", errorCnt, threshold)
+
+	var resArray []int
+	for i := 0; i < 60; i++ {
+		resArray = append(resArray, 0)
+	}
+
+	idx := 0
+	for {
+		idx++
+
+		// execute
+		log.Printf("Request send[%d]\n", idx)
+		res, _ := client.Get(targetEndpoint)
+		log.Printf("Response receive[%d]\n", idx)
+
+		// http response check
+		if code := res.StatusCode; code != http.StatusOK {
+			log.Printf("Invalid status code: %d\n", code)
+			resArray = append(resArray[1:], 1)
+		}
+		resArray = append(resArray[1:], 0)
+
+		// calcurate
+		errorCnt := 0
+		for _, val := range resArray {
+			errorCnt += val
+		}
+		if errorCnt > threshold {
+			log.Fatalf("Fatal error count exceeded threshold: %d > %d\n", errorCnt, threshold)
+		}
+
+		// sleep
+		time.Sleep(1 * time.Second)
 	}
 }

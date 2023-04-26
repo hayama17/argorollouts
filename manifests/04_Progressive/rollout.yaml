@@ -37,10 +37,6 @@ spec:
         args:
         - name: target-endpoint
           value: http://pg.dev.sample.io/
-        - name: request-max-loop
-          value: "100"
-        - name: sleep-duration
-          value: 1s
         - name: error-threshold
           value: "5"
       steps:
