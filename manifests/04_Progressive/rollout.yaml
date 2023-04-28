@@ -33,7 +33,6 @@ spec:
       analysis:
         templates:
         - templateName: progressive-analysis
-        startingStep: 2
         args:
         - name: ingress-ip
           value: "192.168.49.2"
@@ -43,7 +42,7 @@ spec:
           value: "5"
       steps:
       - setWeight: 20
-      - pause: {}
+      - pause: {duration: 2m}
       - setWeight: 40
       - pause: {duration: 2m}
       - setWeight: 70
