@@ -4,6 +4,7 @@ metadata:
   name: progressive-analysis
 spec:
   args:
+  - name: ingress-ip
   - name: target-endpoint
   - name: error-threshold
   metrics:
@@ -15,6 +16,10 @@ spec:
           backoffLimit: 1
           template:
             spec:
+              hostAliases:
+              - ip: "{{ args.ingress-ip }}"
+                hostnames:
+                - "{{ args.target-endpoint }}"
               containers:
               - name: analysis-job
                 image: registry.gitlab.com/cloudnativetips/argorollouts-sample/analysis-job:latest

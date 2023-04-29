@@ -34,6 +34,8 @@ spec:
         templates:
         - templateName: progressive-analysis
         args:
+        - name: ingress-ip
+          value: "192.168.49.2"
         - name: target-endpoint
           value: pg.dev.sample.io
         - name: error-threshold
