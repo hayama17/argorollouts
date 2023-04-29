@@ -43,11 +43,12 @@ spec:
         - name: error-threshold
           value: "5"
       steps:
-      - setWeight: 20
+      - setCanaryScale:
+          replicas: 1
+      - pause: {duration: 3m}
+      - setWeight: 10
       - pause: {duration: 1m}
-      - setWeight: 40
-      - pause: {duration: 1m}
-      - setWeight: 70
+      - setWeight: 50
       - pause: {duration: 1m}
       trafficRouting:
         nginx:
