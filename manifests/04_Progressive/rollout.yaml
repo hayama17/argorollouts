@@ -38,6 +38,8 @@ spec:
           value: "192.168.49.2"
         - name: target-endpoint
           value: pg.dev.sample.io
+        - name: canary-flag
+          value: "true"
         - name: error-threshold
           value: "5"
       steps:

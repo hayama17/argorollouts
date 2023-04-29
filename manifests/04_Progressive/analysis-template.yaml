@@ -6,6 +6,7 @@ spec:
   args:
   - name: ingress-ip
   - name: target-endpoint
+  - name: canary-flag
   - name: error-threshold
   metrics:
   - name: success-rate
@@ -27,6 +28,8 @@ spec:
                 env:
                 - name: TARGET_ENDPOINT
                   value: "http://{{ args.target-endpoint }}/"
+                - name: CANARY_FLAG
+                  value: "{{ args.canary-flag }}"
                 - name: ERROR_THRESHOLD
                   value: "{{ args.error-threshold }}"
               restartPolicy: Never

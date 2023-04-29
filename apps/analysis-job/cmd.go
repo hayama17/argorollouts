@@ -13,6 +13,13 @@ import (
 	"time"
 )
 
+var (
+	// environment value
+	targetEndpoint string
+	canaryFlag     bool
+	threshold      int
+)
+
 type Response struct {
 	Message string `json:"message"`
 	Version string `json:"version"`
@@ -31,13 +38,23 @@ func main() {
 		os.Exit(0)
 	}()
 
+	// set environment value
+	targetEndpoint = os.Getenv("TARGET_ENDPOINT")
+	canaryFlag, _ = strconv.ParseBool(os.Getenv("CANARY_FLAG"))
+	threshold, _ = strconv.Atoi(os.Getenv("ERROR_THRESHOLD"))
+
+	// execute analysis
+	execute()
+
+	log.Println("[END] analysis-job")
+}
+
+func execute() {
 	client := &http.Client{
 		Timeout: 3 * time.Second,
 	}
 
-	targetEndpoint := os.Getenv("TARGET_ENDPOINT")
-	threshold, _ := strconv.Atoi(os.Getenv("ERROR_THRESHOLD"))
-
+	// initialize value
 	var resArray []int
 	for i := 0; i < 60; i++ {
 		resArray = append(resArray, 0)
@@ -47,31 +64,9 @@ func main() {
 	for {
 		idx++
 
-		req, _ := http.NewRequest("GET", targetEndpoint, nil)
-		req.Header.Set("X-Canary", "true")
-
-		// execute
-		log.Printf("Send request[%d]\n", idx)
-		res, err := client.Do(req)
-		if err != nil {
-			log.Fatalf("Fatal http request send: %v\n", err)
-		}
-
-		body, _ := io.ReadAll(res.Body)
-		res.Body.Close()
-
-		// http response check
-		if code := res.StatusCode; code != http.StatusOK {
-			resArray = append(resArray[1:], 1)
-
-			log.Printf("Invalid status code: %d\n", code)
-		} else {
-			resArray = append(resArray[1:], 0)
-
-			var resJson Response
-			json.Unmarshal(body, &resJson)
-			log.Printf("Receive response[%d]: {version: %s}\n", idx, resJson.Version)
-		}
+		// send http request
+		retVal := loop_run(client, idx)
+		resArray = append(resArray[1:], retVal)
 
 		// calcurate
 		errorCnt := 0
@@ -85,4 +80,32 @@ func main() {
 		// sleep
 		time.Sleep(1 * time.Second)
 	}
+}
+
+func loop_run(httpClient *http.Client, idx int) int {
+	req, _ := http.NewRequest("GET", targetEndpoint, nil)
+	if canaryFlag {
+		req.Header.Set("X-Canary", "true")
+	}
+
+	// execute
+	log.Printf("Send request[%d]\n", idx)
+	res, err := httpClient.Do(req)
+	if err != nil {
+		log.Fatalf("Fatal http request send: %v\n", err)
+	}
+
+	body, _ := io.ReadAll(res.Body)
+	res.Body.Close()
+
+	// http response check
+	if code := res.StatusCode; code != http.StatusOK {
+		log.Printf("Invalid status code: %d\n", code)
+		return 1
+	}
+
+	var resJson Response
+	json.Unmarshal(body, &resJson)
+	log.Printf("Receive response[%d]: {version: %s}\n", idx, resJson.Version)
+	return 0
 }
