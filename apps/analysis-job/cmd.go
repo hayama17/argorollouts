@@ -40,9 +40,12 @@ func main() {
 	for {
 		idx++
 
+		req, _ := http.NewRequest("GET", targetEndpoint, nil)
+		req.Header.Set("X-Canary", "true")
+
 		// execute
 		log.Printf("Request send[%d]\n", idx)
-		res, err := client.Get(targetEndpoint)
+		res, err := client.Do(req)
 		if err != nil {
 			log.Fatalf("Fatal http request send: %v\n", err)
 		}
