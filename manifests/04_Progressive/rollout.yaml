@@ -34,19 +34,20 @@ spec:
         templates:
         - templateName: progressive-analysis
         args:
-        - name: ingress-ip
-          value: "192.168.49.2"
         - name: target-endpoint
           value: pg.dev.sample.io
         - name: error-threshold
           value: "5"
       steps:
       - setWeight: 20
-      - pause: {duration: 2m}
+      - pause: {duration: 1m}
       - setWeight: 40
-      - pause: {duration: 2m}
+      - pause: {duration: 1m}
       - setWeight: 70
-      - pause: {duration: 2m}
+      - pause: {duration: 1m}
       trafficRouting:
         nginx:
           stableIngress: progressive-demo
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
+            canary-by-header-value: "true"
