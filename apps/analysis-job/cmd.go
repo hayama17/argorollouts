@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -10,6 +12,11 @@ import (
 	"syscall"
 	"time"
 )
+
+type Response struct {
+	Message string `json:"message"`
+	Version string `json:"version"`
+}
 
 func main() {
 	log.Println("[START] analysis-job")
@@ -44,19 +51,27 @@ func main() {
 		req.Header.Set("X-Canary", "true")
 
 		// execute
-		log.Printf("Request send[%d]\n", idx)
+		log.Printf("Send request[%d]\n", idx)
 		res, err := client.Do(req)
 		if err != nil {
 			log.Fatalf("Fatal http request send: %v\n", err)
 		}
-		log.Printf("Response receive[%d]\n", idx)
+
+		body, _ := io.ReadAll(res.Body)
+		res.Body.Close()
 
 		// http response check
 		if code := res.StatusCode; code != http.StatusOK {
-			log.Printf("Invalid status code: %d\n", code)
 			resArray = append(resArray[1:], 1)
+
+			log.Printf("Invalid status code: %d\n", code)
+		} else {
+			resArray = append(resArray[1:], 0)
+
+			var resJson Response
+			json.Unmarshal(body, &resJson)
+			log.Printf("Receive response[%d]: {version: %s}\n", idx, resJson.Version)
 		}
-		resArray = append(resArray[1:], 0)
 
 		// calcurate
 		errorCnt := 0
