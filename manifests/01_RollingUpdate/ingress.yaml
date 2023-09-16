@@ -15,4 +15,4 @@ spec:
           service:
             name: rollingupdate-demo
             port:
-              number: 80
+              number: 30080
